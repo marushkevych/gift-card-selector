@@ -46,16 +46,14 @@
             
             <strong>Selected Criteria:</strong> {{criteria || "none"}} 
 
-            <!-- exact matches-->
-            <div>
+            <div ng-show="criteria.count() > 1">
+                <!-- exact matches-->
                 <h2>Exact Matches</h2>
                 <ul ng-repeat="card in cards | filter:exactMatchFilter">
                     <li>{{card.name}}</li>
                 </ul>
-            </div>
-
-            <!-- closest matches-->
-            <div>
+                
+                <!-- closest matches-->
                 <h2>Closest Matches</h2>
                 <ul ng-repeat="card in cards  | filter:closestMatchFilter">
                     <li>{{card.name}}</li>

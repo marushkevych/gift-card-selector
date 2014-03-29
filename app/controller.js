@@ -3,10 +3,18 @@ function SelectorController($scope){
     $scope.criteria = {
         cardValue: null,
         graphicCustomization: null,
-        deliveryTime: null
+        deliveryTime: null,
+        count: function(){
+            var count = 0;
+            if(this.cardValue) count += 1;
+            if(this.graphicCustomization) count += 1;
+            if(this.deliveryTime) count += 1;
+            return count;
+        }
     };
     
     $scope.exactMatchFilter = function(card){
+        if($scope.criteria.count() < 2 || !card.isPP) return false;
         return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);
     };
     

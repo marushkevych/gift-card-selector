@@ -1,0 +1,23 @@
+{
+  "name": "gift-card-selector",
+  "version": "0.0.0",
+  "description": "prototype for gift card selection tool",
+  "main": "controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/marushkevych/gift-card-selector.git"
+  },
+  "author": "Andrey Marushkevych",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marushkevych/gift-card-selector/issues"
+  },
+  "homepage": "https://github.com/marushkevych/gift-card-selector",
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-contrib-jasmine": "^0.6.3"
+  }
+}

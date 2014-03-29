@@ -4,7 +4,7 @@ function SelectorController($scope){
         cardValue: null,
         graphicCustomization: null,
         deliveryTime: null
-    }
+    };
     
     $scope.exactMatchFilter = function(card){
         return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);

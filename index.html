@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ESSO price privileges</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="styles.css" type="text/css" />
+    </head>
+    <body>
+
+        <!-- Angular app -->
+        <div ng-app ng-controller="SelectorController">
+
+            <h2>Card Selector</h2>
+            <div style="overflow:hidden;">
+                <div class='select-criteria-box'>
+                    <h4>Card Value</h4>
+                    <form name="cardValueForm" >
+                        <input type="radio" ng-model="criteria.cardValue" value="standard">  standard <br/>
+                        <input type="radio" ng-model="criteria.cardValue" value="variable"> variable <br/>
+                        <br/><br/>
+                        <button type="button" ng-click="criteria.cardValue = null">clear</button>
+                    </form>        
+                </div>
+                <div class='select-criteria-box'>
+                    <h4>Graphic Customization</h4>
+                    <form name="cardValueForm" >
+                        <input type="radio" ng-model="criteria.graphicCustomization" value="full">  full <br/>
+                        <input type="radio" ng-model="criteria.graphicCustomization" value="partial"> partial <br/>
+                        <input type="radio" ng-model="criteria.graphicCustomization" value="none"> none <br/>
+                        <br/>
+                        <button type="button" ng-click="criteria.graphicCustomization = null">clear</button>
+                    </form>        
+                </div>
+                <div class='select-criteria-box'>
+                    <h4>Delivery Time</h4>
+                    <form name="cardValueForm" >
+                        <input type="radio" ng-model="criteria.deliveryTime" value="30">  30 days <br/>
+                        <input type="radio" ng-model="criteria.deliveryTime" value="5"> 5 days <br/>
+                        <input type="radio" ng-model="criteria.deliveryTime" value="1"> 1 day <br/>
+                        <br/>
+                        <button type="button" ng-click="criteria.deliveryTime = null">clear</button>
+                    </form>        
+                </div>
+            </div>
+            
+            <strong>Selected Criteria:</strong> {{criteria || "none"}} 
+
+            <!-- exact matches-->
+            <div>
+                <h2>Exact Matches</h2>
+                <ul ng-repeat="card in cards | filter:exactMatchFilter">
+                    <li>{{card.name}}</li>
+                </ul>
+            </div>
+
+            <!-- closest matches-->
+            <div>
+                <h2>Closest Matches</h2>
+                <ul ng-repeat="card in cards  | filter:closestMatchFilter">
+                    <li>{{card.name}}</li>
+                </ul>
+            </div>
+
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.3/angular.min.js"></script>
+            <script src="controller.js"></script>
+        </div>
+
+    </body>
+</html>

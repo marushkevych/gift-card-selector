@@ -4,6 +4,10 @@ function SelectorController($scope){
         cardValue: null,
         graphicCustomization: null,
         deliveryTime: null,
+        
+        /**
+         * @returns {Number} count of selected criteria (0-3)
+         */
         count: function(){
             var count = 0;
             if(this.cardValue) count += 1;
@@ -16,6 +20,16 @@ function SelectorController($scope){
     $scope.exactMatchFilter = function(card){
         if($scope.criteria.count() < 2 || !card.isPP) return false;
         return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);
+    };
+
+    $scope.closestMatchFilter = function(card){
+        if($scope.criteria.count() < 2) return false;
+        if($scope.criteria.count() === 2){
+            if(card.isPP) return false;
+            return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);
+        }
+        
+        return false;
     };
     
     function matchCardValue(card){
@@ -33,9 +47,6 @@ function SelectorController($scope){
         return card.deliveryTime <= $scope.criteria.deliveryTime;
     }
     
-    $scope.closestMatchFilter = function(card){
-        return false;
-    };
     
     /**
      * Cards configuration. Use following values:

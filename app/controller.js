@@ -23,6 +23,13 @@ function SelectorController($scope) {
         if ($scope.criteria.count() < 2 || !card.isPP) {
             return false;
         }
+
+        // criteria count is 2
+        if ($scope.criteria.count() === 2) {
+            return twoCriteriaFilter(card);
+        }
+
+        // criteria count is 3
         return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);
     };
 
@@ -31,23 +38,44 @@ function SelectorController($scope) {
             return false;
         }
 
+        // criteria count is 2
         if ($scope.criteria.count() === 2) {
             if (card.isPP) {
                 return false;
             }
-            return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);
-        } else { // criteria count is 3
+            return twoCriteriaFilter(card);
+        }
 
-            var matchCount = getMatchCount(card);
+        // criteria count is 3
+        var matchCount = getMatchCount(card);
 
-            if (!card.isPP) {
-                return  matchCount > 1;
-            } else {
-                return  matchCount === 2;
-            }
+        if (!card.isPP) {
+            return  matchCount > 1;
+        } else {
+            return  matchCount === 2;
         }
 
     };
+
+    function twoCriteriaFilter(card) {
+        // edge cases
+        
+        // edge case 'partial, next day'
+        if ($scope.criteria.graphicCustomization === 'partial' && $scope.criteria.deliveryTime === 1) {
+            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return true;
+            }
+            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
+                return true;
+            }
+            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
+                return true;
+            }
+        }
+
+        // regular cases
+        return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);
+    }
 
     function getMatchCount(card) {
         var matchCount = 0;
@@ -57,7 +85,7 @@ function SelectorController($scope) {
             matchCount += 1;
         if (matchDeliveryTime(card))
             matchCount += 1;
-        
+
         return matchCount;
     }
 

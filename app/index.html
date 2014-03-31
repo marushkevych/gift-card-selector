@@ -35,9 +35,9 @@
                 <div class='select-criteria-box'>
                     <h4>Delivery Time</h4>
                     <form name="cardValueForm" >
-                        <input type="radio" ng-model="criteria.deliveryTime" value="30">  30 days <br/>
-                        <input type="radio" ng-model="criteria.deliveryTime" value="5"> 5 days <br/>
-                        <input type="radio" ng-model="criteria.deliveryTime" value="1"> 1 day <br/>
+                        <input type="radio" ng-model="criteria.deliveryTime" ng-value="30">  30 days <br/>
+                        <input type="radio" ng-model="criteria.deliveryTime" ng-value="5"> 5 days <br/>
+                        <input type="radio" ng-model="criteria.deliveryTime" ng-value="1"> 1 day <br/>
                         <br/>
                         <button type="button" ng-click="criteria.deliveryTime = null">clear</button>
                     </form>        

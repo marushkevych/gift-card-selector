@@ -1,4 +1,3 @@
-
 describe("Closest Match Filter", function() {
 
     var scope;
@@ -7,7 +6,7 @@ describe("Closest Match Filter", function() {
         SelectorController(scope);
     });
 
-    it("should block if card is not PP and less than two critera selected", function() {
+    it("should block if card is not PP and less than two criteria selected", function() {
         var card = {
             isPP: false,
             cardValue: 'standard',

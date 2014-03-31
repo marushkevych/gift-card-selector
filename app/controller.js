@@ -60,9 +60,36 @@ function SelectorController($scope) {
     function twoCriteriaFilter(card) {
         // edge cases
         
-        // edge case 'partial, next day'
+        // edge case 'partial custom, next day'
         if ($scope.criteria.graphicCustomization === 'partial' && $scope.criteria.deliveryTime === 1) {
             if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return true;
+            }
+            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
+                return true;
+            }
+            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
+                return true;
+            }
+        }
+        // edge case 'full custom, next day'
+        if ($scope.criteria.graphicCustomization === 'full' && $scope.criteria.deliveryTime === 1) {
+            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
+                return true;
+            }
+            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
+                return true;
+            }
+            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
+                return true;
+            }
+        }
+        // edge case 'full custom, next day'
+        if ($scope.criteria.graphicCustomization === 'full' && $scope.criteria.deliveryTime === 5) {
+            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return true;
+            }            
+            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
                 return true;
             }
             if (card.cardValue === 'standard' && card.deliveryTime === 1) {

@@ -1,4 +1,3 @@
-
 describe("Exact Match Filter", function() {
 
     var scope;
@@ -7,7 +6,7 @@ describe("Exact Match Filter", function() {
         SelectorController(scope);
     });
 
-    it("should returns false if less than two critera selected", function() {
+    it("should block if less than two criteria selected", function() {
         var card = {
             isPP: true,
             cardValue: 'standard',
@@ -20,7 +19,7 @@ describe("Exact Match Filter", function() {
         expect(scope.exactMatchFilter(card)).toBe(false);
     });
 
-    it("should returns true if more than two critera match", function() {
+    it("should pass if more than two criteria match", function() {
         var card = {
             isPP: true,
             cardValue: 'standard',
@@ -34,7 +33,7 @@ describe("Exact Match Filter", function() {
         expect(scope.exactMatchFilter(card)).toBe(true);
     });
 
-    it("should returns false if critera match, but card is not PP", function() {
+    it("should block if criteria match, but card is not PP", function() {
         var card = {
             isPP: false,
             cardValue: 'standard',
@@ -48,7 +47,7 @@ describe("Exact Match Filter", function() {
         expect(scope.exactMatchFilter(card)).toBe(false);
     });
 
-    it("should return true if all three criteria match", function() {
+    it("should pass if all three criteria match", function() {
         var card = {
             isPP: true,
             cardValue: 'standard',
@@ -63,7 +62,7 @@ describe("Exact Match Filter", function() {
         expect(scope.exactMatchFilter(card)).toBe(true);
     });
 
-    it("should return false if all three criteria selected but one doesnt match", function() {
+    it("should block if all three criteria selected but one doesnt match", function() {
         var card = {
             isPP: true,
             cardValue: 'standard',

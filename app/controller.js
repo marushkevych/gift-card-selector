@@ -142,6 +142,20 @@ function SelectorController($scope) {
                 return true;
             }
         }        
+
+        // edge case 'variable, full, 5 days'
+        if ($scope.criteria.cardValue === 'variable'
+                && $scope.criteria.graphicCustomization === 'full' 
+                && $scope.criteria.deliveryTime === 5) {
+            
+            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
+                return true;
+            }
+            
+            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return true;
+            }
+        }        
         
         // regular cases
         return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);       
@@ -218,6 +232,20 @@ function SelectorController($scope) {
                 return false;
             }            
         }          
+        
+        // edge case 'variable, full, 5 days'
+        if ($scope.criteria.cardValue === 'variable'
+                && $scope.criteria.graphicCustomization === 'full' 
+                && $scope.criteria.deliveryTime === 5) {
+            
+            if (card.isPP && card.graphicCustomization === 'full' && card.deliveryTime === 30) {
+                return false;
+            }
+
+            if (card.isPP && card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return false;
+            }            
+        }        
         
         // regular cases
         var matchCount = getMatchCount(card);

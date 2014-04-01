@@ -65,13 +65,13 @@ describe("Exact Match Filter", function() {
     it("should block if all three criteria selected but one doesnt match", function() {
         var card = {
             isPP: true,
-            cardValue: 'standard',
-            graphicCustomization: 'none',
-            deliveryTime: 1
+            cardValue: 'standardAndVariable',
+            graphicCustomization: 'full',
+            deliveryTime: 30
         };
 
         scope.criteria.cardValue = 'standard';
-        scope.criteria.graphicCustomization = 'full';
+        scope.criteria.graphicCustomization = 'none';
         scope.criteria.deliveryTime = 1;
 
         expect(scope.exactMatchFilter(card)).toBe(false);

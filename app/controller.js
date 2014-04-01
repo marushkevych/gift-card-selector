@@ -86,6 +86,21 @@ function SelectorController($scope) {
                 return true;
             }
 
+        }      
+        
+        // edge case 'standard, custom, next day'
+        if ($scope.criteria.cardValue === 'standard'
+                && $scope.criteria.graphicCustomization === 'full' 
+                && $scope.criteria.deliveryTime === 1) {
+            
+            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
+                return true;
+            }
+            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
+                return true;
+            }
+            
+
         }        
         
         // regular cases
@@ -109,6 +124,20 @@ function SelectorController($scope) {
             }            
 
         }
+        
+        // edge case 'standard, custom, next day'
+        if ($scope.criteria.cardValue === 'standard'
+                && $scope.criteria.graphicCustomization === 'full' 
+                && $scope.criteria.deliveryTime === 1) {
+            
+            if (card.isPP && card.graphicCustomization === 'full' && card.deliveryTime === 30) {
+                return false;
+            }
+            if (card.isPP && card.cardValue === 'standard' && card.deliveryTime === 1) {
+                return false;
+            }            
+
+        }          
         
         // regular cases
         var matchCount = getMatchCount(card);

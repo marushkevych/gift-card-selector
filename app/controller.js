@@ -85,7 +85,6 @@ function SelectorController($scope) {
             if (card.cardValue === 'standard' && card.deliveryTime === 1) {
                 return true;
             }
-
         }      
         
         // edge case 'standard, custom, next day'
@@ -99,8 +98,20 @@ function SelectorController($scope) {
             if (card.cardValue === 'standard' && card.deliveryTime === 1) {
                 return true;
             }
+        }    
+        
+        // edge case 'standard, custom, 5 days'
+        if ($scope.criteria.cardValue === 'standard'
+                && $scope.criteria.graphicCustomization === 'full' 
+                && $scope.criteria.deliveryTime === 5) {
             
-
+            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
+                return true;
+            }
+            
+            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return true;
+            }            
         }        
         
         // regular cases
@@ -122,7 +133,6 @@ function SelectorController($scope) {
             if (card.isPP && card.cardValue === 'standard' && card.deliveryTime === 1) {
                 return false;
             }            
-
         }
         
         // edge case 'standard, custom, next day'
@@ -136,7 +146,20 @@ function SelectorController($scope) {
             if (card.isPP && card.cardValue === 'standard' && card.deliveryTime === 1) {
                 return false;
             }            
-
+        }          
+        
+        // edge case 'standard, custom, 5 days'
+        if ($scope.criteria.cardValue === 'standard'
+                && $scope.criteria.graphicCustomization === 'full' 
+                && $scope.criteria.deliveryTime === 5) {
+            
+            if (card.isPP && card.graphicCustomization === 'full' && card.deliveryTime === 30) {
+                return false;
+            }
+            
+            if (card.isPP && card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return false;
+            }            
         }          
         
         // regular cases

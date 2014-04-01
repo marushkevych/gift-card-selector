@@ -20,7 +20,12 @@ function SelectorController($scope) {
             return count;
         }
     };
-
+    
+    /**
+     * Returns true if cards is PP and criteria match (ecxcept edge cases)
+     * 
+     * @returns {Boolean} 
+     */
     $scope.exactMatchFilter = function(card) {
         if ($scope.criteria.count() < 2 || !card.isPP) {
             return false;
@@ -32,9 +37,21 @@ function SelectorController($scope) {
         }
 
         // criteria count is 3
-        return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);
+        return threeCriteriaExactMatchFilter(card);
     };
 
+    /**
+     * If criteria count is 2:
+     *      Returns true if cards is not PP and criteria match (ecxcept edge cases)
+     *      
+     * If criteria count is 3:
+     *      If card is PP 
+     *          Returns true if exaclty two criteria match (ecxcept edge cases)
+     *      If card is not PP 
+     *          Returns true if at least two criteria match (ecxcept edge cases)
+     * 
+     * @returns {Boolean} 
+     */
     $scope.closestMatchFilter = function(card) {
         if ($scope.criteria.count() < 2) {
             return false;
@@ -49,20 +66,64 @@ function SelectorController($scope) {
         }
 
         // criteria count is 3
+        return threeCriteriaClosestMatchFilter(card);
+
+    };
+    
+    function threeCriteriaExactMatchFilter(card){
+        // edge cases
+        
+        // edge case 'standard, partial, next day'
+        if ($scope.criteria.cardValue === 'standard'
+                && $scope.criteria.graphicCustomization === 'partial' 
+                && $scope.criteria.deliveryTime === 1) {
+            
+            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return true;
+            }
+            
+            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
+                return true;
+            }
+
+        }        
+        
+        // regular cases
+        return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);       
+    }
+    
+    function threeCriteriaClosestMatchFilter(card){
+        // edge cases
+        
+        // edge case 'standard, partial, next day'
+        if ($scope.criteria.cardValue === 'standard'
+                && $scope.criteria.graphicCustomization === 'partial' 
+                && $scope.criteria.deliveryTime === 1) {
+            
+            if (card.isPP && card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return false;
+            }
+            
+            if (card.isPP && card.cardValue === 'standard' && card.deliveryTime === 1) {
+                return false;
+            }            
+
+        }
+        
+        // regular cases
         var matchCount = getMatchCount(card);
 
         if (!card.isPP) {
             return  matchCount > 1;
         } else {
             return  matchCount === 2;
-        }
-
-    };
+        }        
+    }
 
     function twoCriteriaFilter(card) {
         // edge cases
         
-        // edge case 'partial custom, next day'
+        // edge case 'partial, next day'
         if ($scope.criteria.graphicCustomization === 'partial' && $scope.criteria.deliveryTime === 1) {
             if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
                 return true;
@@ -74,7 +135,7 @@ function SelectorController($scope) {
                 return true;
             }
         }
-        // edge case 'full custom, next day'
+        // edge case 'full, next day'
         if ($scope.criteria.graphicCustomization === 'full' && $scope.criteria.deliveryTime === 1) {
             if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
                 return true;
@@ -86,7 +147,7 @@ function SelectorController($scope) {
                 return true;
             }
         }
-        // edge case 'full custom, next day'
+        // edge case 'full, next day'
         if ($scope.criteria.graphicCustomization === 'full' && $scope.criteria.deliveryTime === 5) {
             if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
                 return true;

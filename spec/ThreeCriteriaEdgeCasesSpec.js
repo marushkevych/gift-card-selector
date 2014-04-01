@@ -162,8 +162,6 @@ describe('Edge Cases when three criteria selected', function() {
                 };
                 expect(scope.exactMatchFilter(card)).toBe(true);
             });                   
-
-
         });
 
         describe('closestMatchFilter', function() {
@@ -190,8 +188,64 @@ describe('Edge Cases when three criteria selected', function() {
                 expect(scope.closestMatchFilter(card)).toBe(false);
             });            
         });
+    });
 
-       
+    describe('edge case "variable, partial, next day"', function() {
+        beforeEach(function() {
+            scope.criteria.cardValue = 'variable';
+            scope.criteria.graphicCustomization = 'partial';
+            scope.criteria.deliveryTime = 1;
+        });
+
+        describe('exactMatchFilter', function() {
+
+            it('should pass if card is PP, partial, 5 days', function() {
+                expect(scope.criteria.count()).toBe(3);
+                var card = {
+                    isPP: true,
+                    cardValue: 'standardAndVariable',
+                    graphicCustomization: 'partial',
+                    deliveryTime: 5
+                };
+                expect(scope.exactMatchFilter(card)).toBe(true);
+            });
+            
+            it('should pass if card is PP, variable, next day', function() {
+                expect(scope.criteria.count()).toBe(3);
+                var card = {
+                    isPP: true,
+                    cardValue: 'variable',
+                    graphicCustomization: 'whatever',
+                    deliveryTime: 1
+                };
+                expect(scope.exactMatchFilter(card)).toBe(true);
+            });            
+        });
+
+        describe('closestMatchFilter', function() {
+
+            it('should block if card is PP, partial, 5 days', function() {
+                expect(scope.criteria.count()).toBe(3);
+                var card = {
+                    isPP: true,
+                    cardValue: 'standardAndVariable',
+                    graphicCustomization: 'partial',
+                    deliveryTime: 5
+                };
+                expect(scope.closestMatchFilter(card)).toBe(false);
+            });       
+            
+            it('should block if card is PP, variable, next day', function() {
+                expect(scope.criteria.count()).toBe(3);
+                var card = {
+                    isPP: true,
+                    cardValue: 'variable',
+                    graphicCustomization: 'whatever',
+                    deliveryTime: 1
+                };
+                expect(scope.closestMatchFilter(card)).toBe(false);
+            });            
+        });
     });
 
 });

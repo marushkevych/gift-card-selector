@@ -114,6 +114,21 @@ function SelectorController($scope) {
             }            
         }        
         
+        // edge case 'variable, partial, next day'
+        if ($scope.criteria.cardValue === 'variable'
+                && $scope.criteria.graphicCustomization === 'partial' 
+                && $scope.criteria.deliveryTime === 1) {
+            
+            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return true;
+            }
+            
+            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
+                return true;
+            }
+            
+        }        
+        
         // regular cases
         return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);       
     }
@@ -161,6 +176,20 @@ function SelectorController($scope) {
                 return false;
             }            
         }          
+        
+        // edge case 'variable, partial, next day'
+        if ($scope.criteria.cardValue === 'variable'
+                && $scope.criteria.graphicCustomization === 'partial' 
+                && $scope.criteria.deliveryTime === 1) {
+            
+            if (card.isPP && card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return false;
+            }
+            
+            if (card.isPP && card.cardValue === 'variable' && card.deliveryTime === 1) {
+                return false;
+            }            
+        }         
         
         // regular cases
         var matchCount = getMatchCount(card);

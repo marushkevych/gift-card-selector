@@ -1,11 +1,13 @@
 
 describe("Card", function() {
 
+    beforeEach(angular.mock.module('gift-card-selector'));
+
     var scope;
-    beforeEach(function() {
+    beforeEach(inject(function($controller) {
         scope = {};
-        SelectorController(scope);
-    });
+        $controller("SelectorController", {$scope: scope});
+    }));
 
     describe("deliveryTime", function() {
         var card = {

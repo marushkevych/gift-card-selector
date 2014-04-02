@@ -1,4 +1,3 @@
-;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 
 var module = angular.module('gift-card-selector',[]);
 
@@ -318,55 +317,3 @@ module.controller('SelectorController', ['$scope', 'composeFilters', function($s
 
     
 }]);
-
-},{"./twoCriteriaEdgeCases":2}],2:[function(require,module,exports){
-/**
- * These Edge cases apply to both exact match and closest match
- */
-module.exports = function(criteria) {
-    return function(card){
-        // edge case 'partial, next day'
-        if (criteria.graphicCustomization === 'partial' && criteria.deliveryTime === 1) {
-            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
-                return true;
-            }
-            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
-                return true;
-            }
-            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
-                return true;
-            }
-        }
-        // edge case 'full, next day'
-        if (criteria.graphicCustomization === 'full' && criteria.deliveryTime === 1) {
-            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
-                return true;
-            }
-            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
-                return true;
-            }
-            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
-                return true;
-            }
-        }
-        // edge case 'full, next day'
-        if (criteria.graphicCustomization === 'full' && criteria.deliveryTime === 5) {
-            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
-                return true;
-            }
-            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
-                return true;
-            }
-            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
-                return true;
-            }
-            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
-                return true;
-            }
-        }
-    }
-}
-
-
-},{}]},{},[1,2])
-;

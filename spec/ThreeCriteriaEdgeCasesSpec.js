@@ -1,11 +1,13 @@
 
 describe('Edge Cases when three criteria selected', function() {
 
+    beforeEach(angular.mock.module('gift-card-selector'));
+
     var scope;
-    beforeEach(function() {
+    beforeEach(inject(function($controller) {
         scope = {};
-        SelectorController(scope);
-    });
+        $controller("SelectorController", {$scope: scope});
+    }));
 
     describe('edge case "standard, partial, next day"', function() {
         beforeEach(function() {

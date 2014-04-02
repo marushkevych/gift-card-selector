@@ -1,10 +1,12 @@
 describe("Exact Match Filter", function() {
 
+    beforeEach(angular.mock.module('gift-card-selector'));
+
     var scope;
-    beforeEach(function() {
+    beforeEach(inject(function($controller) {
         scope = {};
-        SelectorController(scope);
-    });
+        $controller("SelectorController", {$scope: scope});
+    }));
 
     it("should block if less than two criteria selected", function() {
         var card = {

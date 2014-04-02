@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         },
         jasmine: {
             unit: {
-                src: 'app/**/*.js',
+                src: ['lib/*.js','app/*.js'],
                 options: {
                     specs: 'spec/*Spec.js'
                 }
@@ -29,13 +29,29 @@ module.exports = function(grunt) {
                     '<%= pkg.name %>.min.js': ['app/controller.js']
                 }
             }
-        }
+        },
+        // Grunt task for node-browserify
+        watchify: {
+            dev: {
+                options: {
+                    keepalive: false
+                },
+                src: './src/**/*.js',
+                dest: 'app/controller.js'
+            },
+            prod: {
+                src: './src/**/*.js',
+                dest: 'dist/controller.js'
+            }
+            
+        },        
     });
 
 
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-watchify');
 
     grunt.registerTask('server', ['connect:server']);
     grunt.registerTask('test', ['jasmine:unit']);

@@ -1,10 +1,13 @@
 describe("Closest Match Filter", function() {
+    
+    beforeEach(angular.mock.module('gift-card-selector'));
 
     var scope;
-    beforeEach(function() {
+    beforeEach(inject(function($controller) {
         scope = {};
-        SelectorController(scope);
-    });
+        $controller("SelectorController", {$scope: scope});
+    }));
+
 
     it("should block if card is not PP and less than two criteria selected", function() {
         var card = {
@@ -56,9 +59,9 @@ describe("Closest Match Filter", function() {
             scope.criteria.graphicCustomization = 'none';
             scope.criteria.deliveryTime = 1;
         });
-        
-        describe('and card is not PP', function(){
-            
+
+        describe('and card is not PP', function() {
+
             it('should pass if all criteria match', function() {
                 expect(scope.criteria.count()).toBe(3);
                 var card = {
@@ -92,10 +95,10 @@ describe("Closest Match Filter", function() {
                 expect(scope.closestMatchFilter(card)).toBe(false);
             });
         });
-        
-        describe('and card is PP', function(){
-            
-            it('should block if all three criteria match', function(){
+
+        describe('and card is PP', function() {
+
+            it('should block if all three criteria match', function() {
                 expect(scope.criteria.count()).toBe(3);
                 var card = {
                     isPP: true,
@@ -105,8 +108,8 @@ describe("Closest Match Filter", function() {
                 };
                 expect(scope.closestMatchFilter(card)).toBe(false);
             });
-            
-            it('should pass if exactly two criteria match', function(){
+
+            it('should pass if exactly two criteria match', function() {
                 expect(scope.criteria.count()).toBe(3);
                 var card = {
                     isPP: true,
@@ -117,7 +120,7 @@ describe("Closest Match Filter", function() {
                 expect(scope.closestMatchFilter(card)).toBe(true);
             });
 
-            it('should block if only one criteria match', function(){
+            it('should block if only one criteria match', function() {
                 expect(scope.criteria.count()).toBe(3);
                 var card = {
                     isPP: true,
@@ -127,7 +130,7 @@ describe("Closest Match Filter", function() {
                 };
                 expect(scope.closestMatchFilter(card)).toBe(false);
             });
-            
+
         });
 
 

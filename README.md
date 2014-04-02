@@ -5,7 +5,7 @@
 install grunt CLI (grunt command line interface)
 
 ```
-npm install -g grunt-cli
+$ npm install -g grunt-cli
 ```
 
 change to project dir

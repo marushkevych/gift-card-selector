@@ -32,7 +32,7 @@ run tests
 $ grunt test
 ```
 
-build (this will produce minified js with controller)
+build (this will run tests and build minified js with controller)
 
 ```
 $ grunt

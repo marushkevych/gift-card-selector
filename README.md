@@ -1,6 +1,12 @@
 ## Prototype for Gift Card Selector tool.
 
-#### To run it locally (assuming you have nodejs and grunt-cli installed):
+#### To run it locally (assuming you have nodejs installed):
+
+install grunt CLI (grunt command line interface)
+
+```
+npm install -g grunt-cli
+```
 
 change to project dir
 

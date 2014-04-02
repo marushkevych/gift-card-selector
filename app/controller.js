@@ -1,3 +1,15 @@
+function composeFilters(){
+    var args = Array.prototype.slice.call(arguments, 0);
+    return function(value){
+        for(var i = 0; i < args.length; i++){
+            var result = args[i](value);
+            if(result !== undefined){
+                return result;
+            }
+        }
+    };
+}
+
 function SelectorController($scope) {
 
     $scope.cards = esi.cards;
@@ -21,6 +33,8 @@ function SelectorController($scope) {
         }
     };
     
+
+    
     /**
      * Returns true if cards is PP and criteria match (ecxcept edge cases)
      * 
@@ -33,11 +47,11 @@ function SelectorController($scope) {
 
         // criteria count is 2
         if ($scope.criteria.count() === 2) {
-            return twoCriteriaFilter(card);
+            return composeFilters(twoCriteriaEdgeCases, cardMatchFilter)(card);
         }
 
         // criteria count is 3
-        return threeCriteriaExactMatchFilter(card);
+        return composeFilters(threeCriteriaExactMatchEdgeCases, cardMatchFilter)(card);
     };
 
     /**
@@ -62,16 +76,76 @@ function SelectorController($scope) {
             if (card.isPP) {
                 return false;
             }
-            return twoCriteriaFilter(card);
+            return composeFilters(twoCriteriaEdgeCases, cardMatchFilter)(card);
         }
 
         // criteria count is 3
-        return threeCriteriaClosestMatchFilter(card);
+        return composeFilters(threeCriteriaClosestMatchEdgeCases, threeCriteriaClosestMatchFilter)(card);
 
     };
     
-    function threeCriteriaExactMatchFilter(card){
-        // edge cases
+    function cardMatchFilter(card){
+        return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);
+    }
+    
+    function threeCriteriaClosestMatchFilter(card){
+        
+        var matchCount = getMatchCount(card);
+
+        if (!card.isPP) {
+            return  matchCount > 1;
+        } else {
+            return  matchCount === 2;
+        }         
+    }
+    
+    /**
+     * These Edge cases apply to both exact match and closest match
+     */
+    function twoCriteriaEdgeCases(card) {
+        
+        // edge case 'partial, next day'
+        if ($scope.criteria.graphicCustomization === 'partial' && $scope.criteria.deliveryTime === 1) {
+            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return true;
+            }
+            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
+                return true;
+            }
+            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
+                return true;
+            }
+        }
+        // edge case 'full, next day'
+        if ($scope.criteria.graphicCustomization === 'full' && $scope.criteria.deliveryTime === 1) {
+            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
+                return true;
+            }
+            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
+                return true;
+            }
+            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
+                return true;
+            }
+        }
+        // edge case 'full, next day'
+        if ($scope.criteria.graphicCustomization === 'full' && $scope.criteria.deliveryTime === 5) {
+            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
+                return true;
+            }            
+            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
+                return true;
+            }
+            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
+                return true;
+            }
+            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
+                return true;
+            }
+        }
+    }    
+    
+    function threeCriteriaExactMatchEdgeCases(card){
         
         // edge case 'standard, partial, next day'
         if ($scope.criteria.cardValue === 'standard'
@@ -157,11 +231,9 @@ function SelectorController($scope) {
             }
         }        
         
-        // regular cases
-        return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);       
     }
     
-    function threeCriteriaClosestMatchFilter(card){
+    function threeCriteriaClosestMatchEdgeCases(card){
         // edge cases
         
         // edge case 'standard, partial, next day'
@@ -246,63 +318,10 @@ function SelectorController($scope) {
                 return false;
             }            
         }        
-        
-        // regular cases
-        var matchCount = getMatchCount(card);
-
-        if (!card.isPP) {
-            return  matchCount > 1;
-        } else {
-            return  matchCount === 2;
-        }        
+       
     }
 
-    function twoCriteriaFilter(card) {
-        // edge cases
-        
-        // edge case 'partial, next day'
-        if ($scope.criteria.graphicCustomization === 'partial' && $scope.criteria.deliveryTime === 1) {
-            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
-                return true;
-            }
-            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
-                return true;
-            }
-            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
-                return true;
-            }
-        }
-        // edge case 'full, next day'
-        if ($scope.criteria.graphicCustomization === 'full' && $scope.criteria.deliveryTime === 1) {
-            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
-                return true;
-            }
-            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
-                return true;
-            }
-            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
-                return true;
-            }
-        }
-        // edge case 'full, next day'
-        if ($scope.criteria.graphicCustomization === 'full' && $scope.criteria.deliveryTime === 5) {
-            if (card.graphicCustomization === 'partial' && card.deliveryTime === 5) {
-                return true;
-            }            
-            if (card.graphicCustomization === 'full' && card.deliveryTime === 30) {
-                return true;
-            }
-            if (card.cardValue === 'standard' && card.deliveryTime === 1) {
-                return true;
-            }
-            if (card.cardValue === 'variable' && card.deliveryTime === 1) {
-                return true;
-            }
-        }
 
-        // regular cases
-        return matchCardValue(card) && matchGraphicCustomization(card) && matchDeliveryTime(card);
-    }
 
     function getMatchCount(card) {
         var matchCount = 0;

@@ -1,10 +1,4 @@
 describe("ComposeFilter", function() {
-    beforeEach(angular.mock.module('gift-card-selector'));
-
-    var composeFilters;
-    beforeEach(inject(function(_composeFilters_) {
-        composeFilters = _composeFilters_;
-    }));
 
     it("should apply next filter only of current filter didnt return true or false", function() {
         function filter1(arg) {

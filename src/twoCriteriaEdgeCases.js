@@ -42,6 +42,6 @@ module.exports = function(criteria) {
                 return true;
             }
         }
-    }
-}
+    };
+};
 

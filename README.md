@@ -20,7 +20,7 @@ install dependencies
 $ npm install
 ```
 
-run application
+run prototype application
 
 ```
 $ grunt server
@@ -32,7 +32,7 @@ run tests
 $ grunt test
 ```
 
-build (this will run tests and build minified js with controller)
+build distributable (this will run tests and build minified controller: dist/controller.min.js)
 
 ```
 $ grunt

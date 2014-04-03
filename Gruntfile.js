@@ -6,14 +6,14 @@ module.exports = function(grunt) {
             server: {
                 options: {
                     port: 8000,
-                    base: 'app',
-                    keepalive: true
+                    base: 'prototype',
+                    keepalive: false
                 }
             }
         },
         jasmine: {
             unit: {
-                src: ['lib/*.js','app/*.js'],
+                src: ['lib/*.js','prototype/*.js', 'src/utils/*.js'],
                 options: {
                     specs: 'spec/*Spec.js'
                 }
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    '<%= pkg.name %>.min.js': ['app/controller.js']
+                    'dist/controller.min.js': ['dist/controller.js']
                 }
             }
         },
@@ -34,12 +34,16 @@ module.exports = function(grunt) {
         watchify: {
             dev: {
                 options: {
-                    keepalive: false
+                    keepalive: true
                 },
                 src: './src/**/*.js',
-                dest: 'app/controller.js'
+                dest: 'prototype/controller.js'
             },
-            prod: {
+            test: {
+                src: './src/**/*.js',
+                dest: 'prototype/controller.js'
+            },
+            dist: {
                 src: './src/**/*.js',
                 dest: 'dist/controller.js'
             }
@@ -53,10 +57,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-watchify');
 
-    grunt.registerTask('server', ['connect:server']);
-    grunt.registerTask('test', ['jasmine:unit']);
+    grunt.registerTask('watch', ['watchify:dev']); // watch for changes and build the dev bundle
+    grunt.registerTask('server', ['connect:server','watchify:dev']);
+    grunt.registerTask('test', ['watchify:test','jasmine:unit']);
+    grunt.registerTask('dist', ['watchify:dist','uglify']);
     
     // Default task(s).
-    grunt.registerTask('default', ['test', 'uglify']);
+    grunt.registerTask('default', ['test',  'dist']);
 
 };
